@@ -1,0 +1,45 @@
+POST http://localhost:5000/api/estabelecimentos
+Content-Type: application/json
+
+{
+  "cnpj": "12334572340195",
+  "categoria": "Ali24",
+  "name": "Supermercado21",
+  "cep": "12343478",
+  "rua": "Rua Exemplo",
+  "bairro": "Bairro Teste",
+  "numero": "12345",  
+  "cidade": "Cidade Exemplo",
+  "estado": "SP",
+  "telefone": "11987654321"
+}
+
+
+
+###
+GET http://localhost:5000/api/estabelecimentos
+###
+
+
+
+
+POST http://localhost:5000/api/products
+Content-Type: application/json
+
+{
+  "name": "Coca-cola",
+  "category": "Bebidas",
+  "price": 5,
+  "stock": 20,
+  "estabelecimento_id": 4
+}
+###
+
+
+
+GET http://localhost:5000/api/products
+###
+
+
+
+DELETE http://localhost:5000/api/products/3

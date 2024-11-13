@@ -1,24 +1,8 @@
 {
-  "name": "nodedocker",
-  "version": "1.0.0",
-  "main": "index.js",
-  "type": "commonjs",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "install-deps": "npm install",
-    "start-docker": "docker compose up -d",
-    "start-server": "node server.js --watch",
-    "start": "npm run install-deps && npm run start-docker && npm run start-server"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": "",
   "dependencies": {
-    "dotenv": "^16.4.5",
+    "cors": "^2.8.5",
+    "ejs": "^3.1.10",
     "express": "^4.21.1",
-    "fastify": "^5.0.0",
-    "pg": "^8.13.1",
-    "postgres": "^3.4.4"
+    "pg": "^8.13.1"
   }
 }
