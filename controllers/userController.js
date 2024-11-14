@@ -1,28 +1,27 @@
-const { client } = require('../utils/db');
+// controllers/userFisicoController.js
+const { sql } = require('../utils/db');
 
-exports.createUser = async (req, res) => {
-    const { name, forname, username, email, password } = req.body;
+exports.createUserFisico = async (req, res) => {
+    const { cpf, cargo, name, cep, rua, bairro, numero, cidade, estado, telefone } = req.body;
     try {
-        const query = `
-      INSERT INTO "user" (name, forname, username, email, password)
-      VALUES ($1, $2, $3, $4, $5)
-      RETURNING id
-    `;
-        const values = [name, forname, username, email, password];
-        const result = await client.query(query, values);
-        res.status(201).json({ id: result.rows[0].id });
+        const result = await sql`
+            INSERT INTO userFisico (cpf, cargo, name, cep, rua, bairro, numero, cidade, estado, telefone)
+            VALUES (${cpf}, ${cargo}, ${name}, ${cep}, ${rua}, ${bairro}, ${numero}, ${cidade}, ${estado}, ${telefone})
+            RETURNING id
+        `;
+        res.status(201).json({ id: result[0].id });
     } catch (err) {
-        console.error('Erro ao criar usuário:', err);
-        res.status(500).send('Erro ao criar usuário');
+        console.error('Erro ao criar usuário físico:', err);
+        res.status(500).send('Erro ao criar usuário físico');
     }
 };
 
-exports.getUsers = async (req, res) => {
+exports.getUsersFisico = async (req, res) => {
     try {
-        const result = await client.query('SELECT * FROM "user"');
-        res.status(200).json(result.rows);
+        const result = await sql`SELECT * FROM userFisico`;
+        res.status(200).json(result);
     } catch (err) {
-        console.error('Erro ao listar usuários:', err);
-        res.status(500).send('Erro ao listar usuários');
+        console.error('Erro ao listar usuários físicos:', err);
+        res.status(500).send('Erro ao listar usuários físicos');
     }
 };

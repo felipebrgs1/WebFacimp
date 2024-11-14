@@ -2,7 +2,7 @@ POST http://localhost:5000/api/estabelecimentos
 Content-Type: application/json
 
 {
-  "cnpj": "12334572340195",
+  "cnpj": "32333237349775",
   "categoria": "Ali24",
   "name": "Supermercado21",
   "cep": "12343478",
