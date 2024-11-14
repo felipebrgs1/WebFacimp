@@ -1,4 +1,14 @@
 {
+  "name": "neon-express",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "npm i",
+    "start": "node index.js"
+  },
+  "author": "",
+  "license": "ISC",
   "dependencies": {
     "@neondatabase/serverless": "^0.10.3",
     "cors": "^2.8.5",
