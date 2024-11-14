@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loja - ITZ Online</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+            padding: 15px;
+        }
+
+        .product-card {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            background-color: white;
+            text-align: center;
+        }
+
+        .product-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .product-card-body {
+            padding: 15px;
+        }
+
+        .product-title {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .product-category,
+        .product-price {
+            font-size: 14px;
+            color: #555;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <a class="navbar-brand" href="#">ITZ ONLINE</a>
+    </nav>
+
+    <!-- Header -->
+    <header class="bg-dark text-white text-center py-3">
+        <h1>Produtos Disponíveis</h1>
+        <p>Veja os produtos oferecidos por nossos comerciantes locais</p>
+    </header>
+
+    <!-- Product Grid -->
+    <div class="container mt-4">
+        <div id="productGrid" class="product-grid">
+            <!-- Os produtos serão inseridos aqui via AJAX -->
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"> </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            // Requisição AJAX para buscar os produtos
+            $.ajax({
+                url: 'http://localhost:5000/api/products', // URL da rota para buscar os produtos
+                method: 'GET',
+                success: function (data) {
+                    // Manipula os dados e cria os cards dos produtos dinamicamente
+                    data.forEach(function (product) {
+                        const productHtml = `
+                            <div class="product-card">
+                                <img src="https://via.placeholder.com/300" alt="${product.name}">
+                                <div class="product-card-body">
+                                    <h5 class="product-title">${product.name}</h5>
+                                    <p class="product-category">Categoria: ${product.category}</p>
+                                    <p class="product-price">Preço: R$ ${(product.price ? Number(product.price).toFixed(2) : '0.00')}</p>
+                                    <button class="btn btn-primary btn-block">Comprar</button>
+                                </div>
+                            </div>
+                        `;
+                        $('#productGrid').append(productHtml); // Adiciona o produto no grid
+                    });
+                },
+                error: function (err) {
+                    console.error('Erro ao buscar os produtos', err);
+                    alert('Erro ao carregar os produtos');
+                }
+            });
+        });
+    </script>
+
+</body>
+
+</html>
