@@ -4,14 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ITZ Online</title>
+    <title>Estabelecimentos - ITZ Online</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        /* Estilos adicionais */
+        /* Estilos para cards de estabelecimentos */
         .card-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            /* 3 colunas fixas */
             gap: 15px;
             padding: 15px;
         }
@@ -19,14 +18,12 @@
         @media (max-width: 1024px) {
             .card-grid {
                 grid-template-columns: repeat(2, 1fr);
-                /* 2 colunas em telas menores */
             }
         }
 
         @media (max-width: 768px) {
             .card-grid {
                 grid-template-columns: 1fr;
-                /* 1 coluna em telas ainda menores */
             }
         }
 
@@ -56,14 +53,11 @@
             font-size: 14px;
             color: #555;
         }
-
-        .btn-outline-secondary {
-            margin-top: 10px;
-        }
     </style>
 </head>
 
 <body>
+
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <a class="navbar-brand" href="#">ITZ ONLINE</a>
@@ -77,16 +71,32 @@
         </div>
     </nav>
 
-    <!-- Header -->
-    <header class="bg-dark text-white text-center py-3">
-        <h1>ITZ - ONLINE</h1>
-        <p>Encontre os melhores comércios locais da sua cidade</p>
-    </header>
-
-    <!-- Card Grid -->
+    <!-- Estabelecimentos Container -->
     <div class="container mt-4">
-        <div id="cardGrid" class="card-grid">
-            <!-- Os cards serão inseridos aqui via AJAX -->
+        <div id="estabelecimentoGrid" class="card-grid">
+            <!-- Estabelecimentos serão inseridos aqui via AJAX -->
+        </div>
+    </div>
+
+    <!-- Modal para detalhes do estabelecimento -->
+    <div class="modal fade" id="estabelecimentoModal" tabindex="-1" role="dialog"
+        aria-labelledby="estabelecimentoModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="estabelecimentoModalLabel">Detalhes do Estabelecimento</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!-- Detalhes do estabelecimento serão carregados aqui -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                    <a href="#" id="verProdutosBtn" class="btn btn-primary">Ver Produtos</a>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -94,35 +104,58 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         $(document).ready(function () {
-            // Requisição AJAX para buscar os dados dos estabelecimentos
+            // Carregar estabelecimentos
             $.ajax({
-                url: 'http://localhost:5000/api/estabelecimentos', // URL da rota para buscar os estabelecimentos
+                url: 'http://localhost:5000/api/estabelecimentos', // Substitua pela URL de onde os dados dos estabelecimentos são obtidos
                 method: 'GET',
                 success: function (data) {
-                    // Manipula os dados e cria os cards dinamicamente
                     data.forEach(function (estabelecimento) {
-                        const cardHtml = `
+                        const estabelecimentoHtml = `
                             <div class="card">
-                                <img src="https://via.placeholder.com/300" alt="${estabelecimento.name}">
+                                <img src="https://via.placeholder.com/300" class="card-img-top" alt="${estabelecimento.name}">
                                 <div class="card-body">
                                     <h5 class="card-title">${estabelecimento.name}</h5>
                                     <p class="card-text">Local: ${estabelecimento.rua}, ${estabelecimento.numero}</p>
                                     <p class="card-text">Categoria: ${estabelecimento.categoria}</p>
-                                    <a href="#" class="btn btn-outline-secondary">Detalhes</a>
-                                    <a href="#" class="btn btn-outline-secondary">Ver Produtos</a>
+                                    <button class="btn btn-primary" data-toggle="modal" data-target="#estabelecimentoModal" data-id="${estabelecimento.id}">Ver Mais</button>
+                                    <button class="btn btn-secondary" data-toggle="modal" data-target="#estabelecimentoModal" data-id="${estabelecimento.id}">Ver Produtos</button>
                                 </div>
                             </div>
                         `;
-                        $('#cardGrid').append(cardHtml); // Adiciona o card no grid
+                        $('#estabelecimentoGrid').append(estabelecimentoHtml);
                     });
                 },
                 error: function (err) {
-                    console.error('Erro ao buscar os dados', err);
+                    console.error('Erro ao carregar os estabelecimentos', err);
                     alert('Erro ao carregar os estabelecimentos');
                 }
             });
+
+            // Carregar detalhes do estabelecimento no modal
+            $('#estabelecimentoModal').on('show.bs.modal', function (event) {
+                const button = $(event.relatedTarget);
+                const id = button.data('id');
+                const modal = $(this);
+
+                $.ajax({
+                    url: `http://localhost:5000/api/estabelecimentos/${id}`,
+                    method: 'GET',
+                    success: function (data) {
+                        modal.find('.modal-body').html(`
+                            <h5>${data.name}</h5>
+                            <p>Endereço: ${data.rua}, ${data.numero}, ${data.bairro}, ${data.cidade} - ${data.estado}</p>
+                            <p>Telefone: ${data.telefone}</p>
+                        `);
+                        $('#verProdutosBtn').attr('href', `produtos.html?estabelecimento_id=${data.id}`);
+                    },
+                    error: function () {
+                        modal.find('.modal-body').html('<p>Erro ao carregar os detalhes do estabelecimento.</p>');
+                    }
+                });
+            });
         });
     </script>
+
 </body>
 
 </html>

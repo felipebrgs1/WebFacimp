@@ -18,12 +18,11 @@ app.use('/api/estabelecimentos', estabelecimentoRouters);
 app.use('/api/products', productRouters);
 app.use('/api/users', userRouters);
 
-// Rota para a página principal
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'pages', 'home.html'));
 });
+app.use(express.static('pages')); // Servir arquivos estáticos da pasta 'public'
 
-// Rota para a página de cadastro
 app.get('/cadastro', (req, res) => {
     res.sendFile(path.join(__dirname, 'pages', 'cadastroestabelecimento.html'));
 });

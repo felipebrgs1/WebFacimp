@@ -53,3 +53,16 @@ exports.deleteProduct = async (req, res) => {
         res.status(500).send('Erro ao deletar produto');
     }
 };
+exports.productbyId = async (req, res) => {
+    const { id } = req.params;
+    try {
+        const result = await sql`SELECT * FROM products WHERE estabelecimento_id = ${id}`;
+        if (result.length === 0) {
+            return res.status(404).send('Produto nao encontrado');
+        }
+        res.status(200).json(result[0]);
+    } catch (err) {
+        console.error('Erro ao buscar produto:', err);
+        res.status(500).send('Erro ao buscar produto');
+    }
+};

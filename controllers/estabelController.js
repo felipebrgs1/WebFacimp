@@ -24,3 +24,18 @@ exports.getEstabelecimentos = async (req, res) => {
         res.status(500).send('Erro ao listar estabelecimentos');
     }
 };
+exports.getEstabelecimentoById = async (req, res) => {
+    const { id } = req.params;
+    try {
+        const result = await sql`SELECT * FROM estabelecimentos WHERE id = ${id}`;
+
+        if (result.length === 0) {
+            return res.status(404).send('Estabelecimento não encontrado');
+        }
+
+        res.status(200).json(result[0]);
+    } catch (err) {
+        console.error('Erro ao buscar estabelecimento:', err);
+        res.status(500).send('Erro ao buscar estabelecimento');
+    }
+};
