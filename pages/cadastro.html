@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- Cabeçalho -->
+    <header>
+        <h1><a href="index.html">ITZ ONLINE</a></h1>
+        <div id="header-nav-botao">
+            <a href="#">Como funciona</a>
+            <a href="#">Ajuda</a>
+        </div>
+        <div id="header-nav-botao-login">
+            <a href="login.html" class="botao">Entrar no Portal</a>
+            <a href="cadastro.html" class="botao">Cadastrar</a>
+        </div>
+    </header>
+
+    <!-- Aba de Apresentação -->
+    <section id="apresentacao">
+        <h1>ITZ - ONLINE</h1>
+        <p>Encontre os melhores comércios locais da sua cidade</p>
+    </section>
+
+    <!-- Área de Cadastro -->
+    <main id="main-cadastro">
+        <section id="area-cadastro">
+            <h1>Cadastro</h1>
+            <input type="text" id="input-first-name" placeholder="Nome">
+            <input type="text" id="input-last-name" placeholder="Sobrenome">
+            <input type="text" id="input-username" placeholder="Nome de Usuário">
+            <input type="email" id="input-email" placeholder="E-mail">
+            <input type="password" id="input-password" placeholder="Senha">
+            <input type="password" id="input-confirm-password" placeholder="Confirmação de senha">
+            <label id="area-cadastro-label-termos">
+                <input type="checkbox" id="id-checkbox-termos">
+                Eu concordo com os termos
+            </label>
+            <button type="submit" id="button-register">Registrar</button>
+        </section>
+    </main>
+
+    <script>
+        document.getElementById("button-register").addEventListener("click", async function (event) {
+            event.preventDefault();
+
+            // Coleta os dados do formulário
+            const userData = {
+                firstName: document.getElementById("input-first-name").value,
+                lastName: document.getElementById("input-last-name").value,
+                username: document.getElementById("input-username").value,
+                email: document.getElementById("input-email").value,
+                password: document.getElementById("input-password").value,
+                confirmPassword: document.getElementById("input-confirm-password").value,
+            };
+
+            // Validação básica
+            if (!document.getElementById("id-checkbox-termos").checked) {
+                alert("Você deve concordar com os termos.");
+                return;
+            }
+
+            if (userData.password !== userData.confirmPassword) {
+                alert("As senhas não coincidem.");
+                return;
+            }
+
+            try {
+                const response = await fetch("http://localhost:5000/api/users", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(userData),
+                });
+
+                if (response.ok) {
+                    alert("Cadastro realizado com sucesso!");
+                    window.location.href = "/login.html";
+                } else {
+                    const errorData = await response.json();
+                    alert(`Erro: ${errorData.message}`);
+                }
+            } catch (error) {
+                console.error("Erro ao conectar ao servidor:", error);
+                alert("Erro ao conectar ao servidor.");
+            }
+        });
+    </script>
+</body>
+
+</html>

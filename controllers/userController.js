@@ -1,70 +1,64 @@
+const bcrypt = require("bcrypt");
 const { sql } = require('../utils/db');
-const bcrypt = require('bcrypt');
-const saltRounds = 10;
-const jwt = require('jsonwebtoken');
-exports.createUserFisico = async (req, res) => {
-    const { cpf, cargo, email, name, password, cep, rua, bairro, numero, cidade, estado, telefone } = req.body;
 
-    // Validação da senha
-    if (password.length < 8) {
-        return res.status(400).send('A senha deve ter pelo menos 8 caracteres');
-    }
+
+exports.createUserFisico = async (req, res) => {
+    const { firstName, lastName, username, email, password, confirmPassword } = req.body;
 
     try {
-        // Criptografando a senha
-        const hashedPassword = await bcrypt.hash(password, saltRounds);
+        // Valida entrada
+        if (!firstName || !lastName || !username || !email || !password || !confirmPassword) {
+            return res.status(400).json({ message: "Todos os campos são obrigatórios." });
+        }
 
-        const result = await sql`
-            INSERT INTO userFisico (cpf, cargo,email, name, password, cep, rua, bairro, numero, cidade, estado, telefone)
-            VALUES (${cpf}, ${cargo},${email}, ${name}, ${hashedPassword}, ${cep}, ${rua}, ${bairro}, ${numero}, ${cidade}, ${estado}, ${telefone})
-            RETURNING id
+        if (password !== confirmPassword) {
+            return res.status(400).json({ message: "As senhas não coincidem." });
+        }
+
+        // Hash da senha
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        // Insere no banco
+        await sql`
+            INSERT INTO userfisico (first_Name, last_Name, username, email, password)
+            VALUES (${firstName}, ${lastName}, ${username}, ${email}, ${hashedPassword})
         `;
 
-        res.status(201).json({ id: result[0].id });
-    } catch (err) {
-        console.error('Erro ao criar usuário físico:', err);
-        res.status(500).send('Erro ao criar usuário físico');
+        res.status(201).json({ message: "Usuário cadastrado com sucesso!" });
+    } catch (error) {
+        console.error("Erro ao registrar usuário:", error);
+        res.status(500).json({ message: "Erro interno do servidor." });
     }
 };
-
-exports.getUsersFisico = async (req, res) => {
-    try {
-        const result = await sql`SELECT * FROM userFisico`;
-        res.status(200).json(result);
-    } catch (err) {
-        console.error('Erro ao listar usuários físicos:', err);
-        res.status(500).send('Erro ao listar usuários físicos');
-    }
-};
-
 
 
 exports.loginUser = async (req, res) => {
-    const { email, password } = req.body;
+    const { email, senha } = req.body;
 
     try {
-        const result = await sql`
-            SELECT * FROM userFisico WHERE email = ${email}
-        `;
+        // Valida entrada
+        if (!email || !senha) {
+            return res.status(400).json({ message: "Email e senha são obrigatórios." });
+        }
 
+        // Busca usuário no banco
+        const result = await sql`SELECT password FROM userFisico WHERE email = ${email}`;
         if (result.length === 0) {
-            return res.status(400).send('Usuário não encontrado');
+            return res.status(401).json({ message: "Usuário não encontrado." });
         }
 
-        const user = result[0];
+        const hashedPassword = result[0].password;
 
-        const isPasswordCorrect = await bcrypt.compare(password, user.password);
-
-        if (!isPasswordCorrect) {
-            return res.status(400).send('Senha incorreta');
+        // Compara senha
+        const isMatch = await bcrypt.compare(senha, hashedPassword);
+        if (!isMatch) {
+            return res.status(401).json({ message: "Credenciais inválidas." });
         }
 
-        // Gerar token JWT
-        const token = jwt.sign({ id: user.id, email: user.email }, process.env.JWT_SECRET, { expiresIn: '1h' });
-
-        res.status(200).json({ message: 'Login bem-sucedido', token });
-    } catch (err) {
-        console.error('Erro ao autenticar usuário:', err);
-        res.status(500).send('Erro ao autenticar usuário');
+        // Login bem-sucedido
+        res.status(200).json({ message: "Login bem-sucedido!" });
+    } catch (error) {
+        console.error("Erro ao autenticar usuário:", error);
+        res.status(500).json({ message: "Erro interno do servidor." });
     }
 };

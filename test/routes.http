@@ -50,9 +50,9 @@ POST http://localhost:5000/api/users
 Content-Type: application/json
 
 {
-  "cpf": "12345678901",
+  "cpf": "12345672901",
   "cargo": "Desenvolvedor",
-  "email": "6Hs2D@example.com",
+  "email": "6Hsw@example.com",
   "name": "João Silva",
   "password": "senha1234",
   "cep": "12345678",

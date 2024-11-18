@@ -44,20 +44,11 @@ async function createTables() {
         await sql`
             CREATE TABLE IF NOT EXISTS userFisico (
                 id SERIAL PRIMARY KEY,
-                cpf CHAR(11) UNIQUE NOT NULL CHECK (cpf ~ '^[0-9]{11}$'),
-                cargo VARCHAR(255) NOT NULL,
-                email VARCHAR(255) UNIQUE NOT NULL,
-                name VARCHAR(255) NOT NULL,
-                password VARCHAR(255) NOT NULL,
-                cep CHAR(8) CHECK (cep ~ '^[0-9]{8}$'),
-                rua VARCHAR(255) NOT NULL,
-                bairro VARCHAR(255) NOT NULL,
-                numero CHAR(5) CHECK (numero ~ '^[0-9]{5}$'),
-                semnumero BOOLEAN DEFAULT false,
-                complemento VARCHAR(255),
-                cidade VARCHAR(255) NOT NULL,
-                estado CHAR(2) CHECK (estado ~ '^[A-Z]{2}$'),
-                telefone CHAR(11) CHECK (telefone ~ '^[0-9]{11}$'),
+                first_name VARCHAR(50) NOT NULL,        
+            last_name VARCHAR(50) NOT NULL,        
+            username VARCHAR(50) NOT NULL UNIQUE,  
+            email VARCHAR(100) NOT NULL UNIQUE,    
+            password TEXT NOT NULL,       
                 created_at TIMESTAMP DEFAULT NOW(),
                 updated_at TIMESTAMP DEFAULT NOW()
             );

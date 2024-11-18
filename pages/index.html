@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página Inicial</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- Cabeçalho -->
+    <header>
+        <h1><a href="#">ITZ ONLINE</a></h1>
+
+        <div id="header-nav-botao">
+            <a href="#">Como funciona</a>
+            <a href="#">Ajuda</a>
+        </div>
+
+        <div id="header-nav-botao-login">
+            <a href="login.html" class="botao">Entrar no Portal</a>
+            <a href="cadastro.html" class="botao">Cadastrar</a>
+        </div>
+    </header>
+
+    <!-- Aba de Apresentação -->
+    <section id="apresentacao">
+        <h1>ITZ - ONLINE</h1>
+        <p>Encontre os melhores comércios locais da sua cidade</p>
+    </section>
+
+    <main id="main-home">
+
+        <!-- Barra de Pesquisa -->
+        <section id="home-pesquisar-comercio">
+            <h2>Pesquisar Comércio</h2>
+
+            <input type="text" name="pesquisa" id="home-pesquisar-comercio-input"
+                placeholder="Digite o nome do comércio, categoria ou produto"><button type="submit"><img
+                    src="img/lupa.png" alt="Pesquisar" style="vertical-align: middle;" id="search-icon"></button>
+
+            <nav>
+                <span class="home-pesquisar-comercio-nav" id="home-pesquisar-comercio-nav1">
+                    <a href="#">Categorias</a>
+                    <a href="#">Ofertas</a>
+                    <a href="#">Cupons</a>
+                    <a href="#">Supermercado</a>
+                    <a href="#">Moda</a>
+                    <a href="#">Vender</a>
+                    <a href="#">Contato</a>
+                </span>
+
+                <span class="home-pesquisar-comercio-nav" id="home-pesquisar-comercio-nav2">
+                    <a href="#">Crie a sua conta</a>
+                    <a href="#">Entre</a>
+                    <a href="#">Compras</a>
+                    <a href="#"><img src="img/carrinho.png" alt="Carrinho" style="vertical-align: middle;"></a>
+                </span>
+            </nav>
+        </section>
+
+        <!-- Apresentação de comércios -->
+        <section id="cont-bloco-com"> <!-- Conteiner -->
+
+            <section class="bloco-com"> <!-- Bloco -->
+                <h2>Supermercado Econômico</h2>
+                <p>Local: Rua das flores, 123</p>
+                <p>Categoria: Supermercado</p>
+
+                <a href="#"><img src="img/detalhes.png" alt="Detalhes" width="25px"
+                        style="vertical-align: middle;">Detalhes</a>
+                <a href="#"><img src="img/sacola.png" alt="Ver Produtos" width="25px"
+                        style="vertical-align: middle;">Ver Produtos</a>
+            </section>
+
+            <section class="bloco-com">
+                <h2>Supermercado Econômico</h2>
+                <p>Local: Rua das flores, 123</p>
+                <p>Categoria: Supermercado</p>
+
+                <a href="#"><img src="img/detalhes.png" alt="Detalhes" width="25px"
+                        style="vertical-align: middle;">Detalhes</a>
+                <a href="#"><img src="img/sacola.png" alt="Ver Produtos" width="25px"
+                        style="vertical-align: middle;">Ver Produtos</a>
+            </section>
+
+            <section class="bloco-com">
+                <h2>Supermercado Econômico</h2>
+                <p>Local: Rua das flores, 123</p>
+                <p>Categoria: Supermercado</p>
+
+                <a href="#"><img src="img/detalhes.png" alt="Detalhes" width="25px"
+                        style="vertical-align: middle;">Detalhes</a>
+                <a href="#"><img src="img/sacola.png" alt="Ver Produtos" width="25px"
+                        style="vertical-align: middle;">Ver Produtos</a>
+            </section>
+
+            <section class="bloco-com">
+                <h2>Supermercado Econômico</h2>
+                <p>Local: Rua das flores, 123</p>
+                <p>Categoria: Supermercado</p>
+
+                <a href="#"><img src="img/detalhes.png" alt="Detalhes" width="25px"
+                        style="vertical-align: middle;">Detalhes</a>
+                <a href="#"><img src="img/sacola.png" alt="Ver Produtos" width="25px"
+                        style="vertical-align: middle;">Ver Produtos</a>
+            </section>
+
+        </section>
+    </main>
+    <script>
+        async function carregarEstabelecimentos() {
+            try {
+                const response = await fetch("http://localhost:5000/api/estabelecimentos");
+                if (!response.ok) throw new Error("Erro ao buscar dados da API");
+
+                const estabelecimentos = await response.json();
+
+                const container = document.getElementById("cont-bloco-com");
+                container.innerHTML = ""; // Limpa o conteúdo existente
+
+                estabelecimentos.forEach(estabelecimento => {
+                    const section = document.createElement("section");
+                    section.className = "bloco-com";
+
+                    section.innerHTML = `
+                        <h2>${estabelecimento.nome}</h2>
+                        <p>Local: ${estabelecimento.endereco}</p>
+                        <p>Categoria: ${estabelecimento.categoria}</p>
+                        <a href="#"><img src="img/detalhes.png" alt="Detalhes" width="25px" style="vertical-align: middle;">Detalhes</a>
+                        <a href="#"><img src="img/sacola.png" alt="Ver Produtos" width="25px" style="vertical-align: middle;">Ver Produtos</a>
+                    `;
+
+                    container.appendChild(section);
+                });
+            } catch (error) {
+                console.error("Erro ao carregar estabelecimentos:", error);
+            }
+        }
+
+        // Carrega os estabelecimentos ao carregar a página
+        document.addEventListener("DOMContentLoaded", carregarEstabelecimentos);
+    </script>
+
+
+</body>
+
+</html>
