@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro Comércio</title>
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
     <!-- Cabeçalho -->
@@ -42,28 +44,95 @@
         <div>
 
             <div>
-                <input type="text" name="" id="" placeholder="Nome Comércio">
-                <input type="text" name="" id="" placeholder="CPF ou CNPJ">
-                <input type="text" name="" id="" placeholder="Categoria">
-                <input type="text" name="" id="" placeholder="CEP">
-                <input type="text" name="" id="" placeholder="Rua">
-                <input type="text" name="" id="" placeholder="Bairro">
-                <input type="text" name="" id="" placeholder="Número">
-                <input type="text" name="" id="" placeholder="Complemento">
+                <input type="text" id="nome" placeholder="Nome Comércio">
+                <input type="text" id="cnpj" placeholder="CNPJ">
+                <input type="text" id="categoria" placeholder="Categoria">
+                <input type="text" id="cep" placeholder="CEP">
+                <input type="text" id="rua" placeholder="Rua">
+                <input type="text" id="bairro" placeholder="Bairro">
+                <input type="text" id="numero" placeholder="Número">
+                <input type="text" id="complemento" placeholder="Complemento">
             </div>
 
-            <input type="checkbox" name="" id="sem-num-check"><span>Sem número</span>
+            <input type="checkbox" id="sem-num-check"><span>Sem número</span>
 
             <div>
-                <input type="text" name="" id="" placeholder="Cidade">
-                <input type="text" name="" id="" placeholder="Estado">
-                <input type="text" name="" id="" placeholder="Telefone">
+                <input type="text" id="cidade" placeholder="Cidade">
+                <input type="text" id="estado" placeholder="Estado">
+                <input type="text" id="telefone" placeholder="Telefone">
             </div>
 
         </div>
 
-        <button type="submit">Cadastrar</button>
+        <button type="button" onclick="cadastrarComercio()">Cadastrar</button>
 
     </section>
+
+    <script>
+        async function cadastrarComercio() {
+            const nome = document.getElementById('nome').value;
+            const cnpj = document.getElementById('cnpj').value;
+            const categoria = document.getElementById('categoria').value;
+            const cep = document.getElementById('cep').value;
+            const rua = document.getElementById('rua').value;
+            const bairro = document.getElementById('bairro').value;
+            const numero = document.getElementById('numero').value;
+            const complemento = document.getElementById('complemento').value;
+            const cidade = document.getElementById('cidade').value;
+            const estado = document.getElementById('estado').value;
+            const telefone = document.getElementById('telefone').value;
+
+            // Verifica se o campo "sem número" está marcado
+            const semNumero = document.getElementById('sem-num-check').checked;
+            const comercio = {
+                nome,
+                cnpj,
+                categoria,
+                cep,
+                rua,
+                bairro,
+                numero: semNumero ? "Sem número" : numero, // Se "sem número" estiver marcado, o valor será "Sem número"
+                complemento,
+                cidade,
+                estado,
+                telefone
+            };
+
+            try {
+                const response = await fetch('http://localhost:5000/api/estabelecimentos', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(comercio)
+                });
+
+                if (response.ok) {
+                    alert('Comércio cadastrado com sucesso!');
+                    // Limpar os campos após o envio
+                    document.getElementById('nome').value = '';
+                    document.getElementById('cnpj').value = '';
+                    document.getElementById('categoria').value = '';
+                    document.getElementById('cep').value = '';
+                    document.getElementById('rua').value = '';
+                    document.getElementById('bairro').value = '';
+                    document.getElementById('numero').value = '';
+                    document.getElementById('sem-num-check').checked = false;
+                    document.getElementById('complemento').value = '';
+                    document.getElementById('cidade').value = '';
+                    document.getElementById('estado').value = '';
+                    document.getElementById('telefone').value = '';
+                } else {
+                    const data = await response.json();
+                    alert(data.message || 'Erro ao cadastrar comércio');
+                }
+            } catch (error) {
+                console.error('Erro ao cadastrar comércio:', error);
+                alert('Erro ao cadastrar comércio');
+            }
+        }
+    </script>
+
 </body>
+
 </html>

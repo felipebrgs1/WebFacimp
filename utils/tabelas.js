@@ -7,17 +7,17 @@ async function createTables() {
         await sql`
             CREATE TABLE IF NOT EXISTS estabelecimentos (
                 id SERIAL PRIMARY KEY,
-                cnpj CHAR(14) UNIQUE NOT NULL CHECK (cnpj ~ '^[0-9]{14}$'),
-                categoria VARCHAR(255) NOT NULL,
                 name VARCHAR(255) NOT NULL,
-                cep CHAR(8) CHECK (cep ~ '^[0-9]{8}$'),
+                cnpj CHAR(14) UNIQUE NOT NULL CHECK (cnpj ~ '^[0-9]{14}$'),
+                category VARCHAR(255) NOT NULL,
+                cep CHAR(9) CHECK (cep ~ '^[0-9]{5}-?[0-9]{3}$'),
                 rua VARCHAR(255) NOT NULL,
                 bairro VARCHAR(255) NOT NULL,
-                numero CHAR(5) CHECK (numero ~ '^[0-9]{5}$'),
+                numero CHAR(5) CHECK (numero ~ '^[0-9]{1,5}$' OR numero = ''),
                 semnumero BOOLEAN DEFAULT false,
                 complemento VARCHAR(255),
                 cidade VARCHAR(255) NOT NULL,
-                estado CHAR(2) CHECK (estado ~ '^[A-Z]{2}$'),
+                estado CHAR(2) CHECK (estado ~ '^[a-zA-Z]{2}$'),
                 telefone CHAR(11) CHECK (telefone ~ '^[0-9]{11}$'),
                 created_at TIMESTAMP DEFAULT NOW(),
                 updated_at TIMESTAMP DEFAULT NOW()

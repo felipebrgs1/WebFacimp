@@ -2,74 +2,138 @@ POST http://localhost:5000/api/estabelecimentos
 Content-Type: application/json
 
 {
-  "cnpj": "32333237349775",
-  "categoria": "Ali24",
-  "name": "Supermercado21",
-  "cep": "12343478",
-  "rua": "Rua Exemplo",
-  "bairro": "Bairro Teste",
-  "numero": "12345",  
-  "cidade": "Cidade Exemplo",
-  "estado": "SP",
-  "telefone": "11987654321"
+    "nome": "Loja 1 - Tech World",
+    "cnpj": "12345678000195",
+    "categoria": "Eletrônicos",
+    "cep": "12345-678",
+    "rua": "Rua das Inovações",
+    "bairro": "Centro",
+    "numero": "10023",
+    "semnumero": false,
+    "complemento": "Próximo ao shopping",
+    "cidade": "São Paulo",
+    "estado": "SP",
+    "telefone": "11987654321"
+}
+
+
+###
+POST http://localhost:5000/api/estabelecimentos
+Content-Type: application/json
+ 
+{
+  "nome": "Loja 2 - Moda Atual",
+  "cnpj": "98765432000187",
+  "categoria": "Vestuário",
+  "cep": "23456-789",
+  "rua": "Avenida Fashion",
+  "bairro": "Jardins",
+  "numero": "31231",
+  "semnumero": false,
+  "complemento": null,
+  "cidade": "Rio de Janeiro",
+  "estado": "RJ",
+  "telefone": "21987654321"
 }
 
 
 
 ###
-GET http://localhost:5000/api/estabelecimentos
+
+
+
+POST http://localhost:5000/api/estabelecimentos
+Content-Type: application/json
+
+{
+  "nome": "Loja 3 - Super Alimentos",
+  "cnpj": "45678912000136",
+  "categoria": "Alimentos",
+  "cep": "34567-890",
+  "rua": "Estrada dos Sabores",
+  "bairro": "Zona Sul",
+  "numero": "35032",
+  "semnumero": false,
+  "complemento": "Bloco A",
+  "cidade": "Belo Horizonte",
+  "estado": "MG",
+  "telefone": "31987654321"
+}
+######################################################################################
+POST http://localhost:5000/api/products
+Content-Type: application/json
+
+  {
+    "nome": "Smartphone X",
+    "categoria": "Eletrônicos",
+    "valor": 3500.00,
+    "quantidade": 20,
+    "estabelecimento": 1
+  }
 ###
+POST http://localhost:5000/api/products
+Content-Type: application/json
 
-
-
+{
+    "nome": "Fone de Ouvido Bluetooth",
+    "categoria": "Eletrônicos",
+    "valor": 250.00,
+    "quantidade": 50,
+    "estabelecimento": 1
+  }
+###
 
 POST http://localhost:5000/api/products
 Content-Type: application/json
 
 {
-  "name": "Coca-cola",
-  "category": "Bebidas",
-  "price": 5,
-  "stock": 20,
-  "estabelecimento_id": 4
-}
+    "nome": "Jaqueta de Couro",
+    "categoria": "Vestuário",
+    "valor": 499.99,
+    "quantidade": 15,
+    "estabelecimento": 2
+  }
+
 ###
 
-
-
-GET http://localhost:5000/api/products
-###
-
-
-
-DELETE http://localhost:5000/api/products/3
-###
-
-
-POST http://localhost:5000/api/users
+POST http://localhost:5000/api/products
 Content-Type: application/json
 
 {
-  "cpf": "12345672901",
-  "cargo": "Desenvolvedor",
-  "email": "6Hsw@example.com",
-  "name": "João Silva",
-  "password": "senha1234",
-  "cep": "12345678",
-  "rua": "Rua Fictícia, 123",
-  "bairro": "Bairro Fictício",
-  "numero": "12345",
-  "cidade": "Cidade Fictícia",
-  "estado": "SP",
-  "telefone": "11987654321"
-}
+    "nome": "Calça Jeans Slim",
+    "categoria": "Vestuário",
+    "valor": 120.00,
+    "quantidade": 30,
+    "estabelecimento": 2
+  }
+
+
 ###
-GET http://localhost:5000/api/users
-###
-POST http://localhost:5000/api/users/login
+
+POST http://localhost:5000/api/products
 Content-Type: application/json
 
 {
-  "email": "6Hs2D@example.com",
-  "password": "senha1234"
-}
+    "nome": "Pasta de Amendoim Natural",
+    "categoria": "Alimentos",
+    "valor": 30.00,
+    "quantidade": 100,
+    "estabelecimento": 3
+  }
+
+###
+
+POST http://localhost:5000/api/products
+Content-Type: application/json
+
+{
+    "nome": "Suco Detox 500ml",
+    "categoria": "Alimentos",
+    "valor": 15.00,
+    "quantidade": 200,
+    "estabelecimento": 3
+  }
+
+
+
+

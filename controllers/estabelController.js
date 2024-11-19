@@ -1,19 +1,25 @@
 const { sql } = require('../utils/db');
 
-exports.createEstabelecimento = async (req, res) => {
-    const { cnpj, categoria, name, cep, rua, bairro, numero, cidade, estado, telefone } = req.body;
+exports.cadastrarComercio = async (req, res) => {
+    const { nome, cnpj, categoria, cep, rua, bairro, numero, semnumero, complemento, cidade, estado, telefone } = req.body;
+
     try {
+        if (!nome || !cnpj || !categoria || !cep || !rua || !bairro || !numero || !cidade || !estado || !telefone) {
+            return res.status(400).json({ message: "Todos os campos são obrigatórios." });
+        }
+
         const result = await sql`
-            INSERT INTO estabelecimentos (cnpj, categoria, name, cep, rua, bairro, numero, cidade, estado, telefone)
-            VALUES (${cnpj}, ${categoria}, ${name}, ${cep}, ${rua}, ${bairro}, ${numero}, ${cidade}, ${estado}, ${telefone})
-            RETURNING id
+            INSERT INTO estabelecimentos (name, cnpj, category, cep, rua, bairro, numero,semnumero ,complemento, cidade, estado, telefone)
+            VALUES (${nome}, ${cnpj}, ${categoria}, ${cep}, ${rua}, ${bairro}, ${numero}, ${semnumero},${complemento}, ${cidade}, ${estado}, ${telefone})
         `;
-        res.status(201).json({ id: result[0].id });
-    } catch (err) {
-        console.error('Erro ao criar estabelecimento:', err);
-        res.status(500).send('Erro ao criar estabelecimento');
+
+        res.status(201).json({ message: "Comércio cadastrado com sucesso!" });
+    } catch (error) {
+        console.error("Erro ao cadastrar comércio:", error);
+        res.status(500).json({ message: "Erro interno ao cadastrar comércio." });
     }
 };
+
 
 exports.getEstabelecimentos = async (req, res) => {
     try {

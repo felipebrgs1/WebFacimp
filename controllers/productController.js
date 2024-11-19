@@ -1,21 +1,28 @@
 const { sql } = require('../utils/db');
 
+// Função para cadastrar um produto
+exports.cadastrarProduto = async (req, res) => {
+    const { nome, categoria, valor, quantidade, estabelecimento } = req.body;
 
-
-exports.createProduct = async (req, res) => {
-    const { name, category, price, stock, estabelecimento_id } = req.body;
     try {
+        // Valida se todos os campos foram fornecidos
+        if (!nome || !categoria || !valor || !quantidade || !estabelecimento) {
+            return res.status(400).json({ message: "Todos os campos são obrigatórios." });
+        }
+
+        // Insere o produto no banco de dados
         const result = await sql`
             INSERT INTO products (name, category, price, stock, estabelecimento_id)
-            VALUES (${name}, ${category}, ${price}, ${stock}, ${estabelecimento_id})
-            RETURNING id
+            VALUES (${nome}, ${categoria}, ${valor}, ${quantidade}, ${estabelecimento})
         `;
-        res.status(201).json({ id: result[0].id });
-    } catch (err) {
-        console.error('Erro ao criar produto:', err);
-        res.status(500).send('Erro ao criar produto');
+
+        res.status(201).json({ message: "Produto cadastrado com sucesso!" });
+    } catch (error) {
+        console.error("Erro ao cadastrar produto:", error);
+        res.status(500).json({ message: "Erro interno ao cadastrar produto." });
     }
 };
+
 
 exports.getProducts = async (req, res) => {
     try {

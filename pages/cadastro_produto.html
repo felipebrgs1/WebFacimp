@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro de Produtos</title>
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
     <!-- Cabeçalho -->
@@ -35,18 +37,63 @@
         <a href="#">Sobre</a>
     </nav>
 
-
     <!-- Cadastro de Produto -->
     <section id="cadastro-produto">
         <h1>Cadastro de Produto</h1>
 
-        <input type="text" name="" id="" placeholder="Nome">
-        <input type="text" name="" id="" placeholder="Categoria">
-        <input type="text" name="" id="" placeholder="Valor">
-        <input type="text" name="" id="" placeholder="Quantidade">
-        <input type="text" name="" id="" placeholder="Estabelecimento">
+        <input type="text" id="nome" placeholder="Nome">
+        <input type="text" id="categoria" placeholder="Categoria">
+        <input type="text" id="valor" placeholder="Valor">
+        <input type="text" id="quantidade" placeholder="Quantidade">
+        <input type="text" id="estabelecimento" placeholder="Estabelecimento">
 
-        <button type="submit">Cadastrar</button>
+        <button type="button" onclick="cadastrarProduto()">Cadastrar</button>
     </section>
+
+    <script>
+        async function cadastrarProduto() {
+            const nome = document.getElementById('nome').value;
+            const categoria = document.getElementById('categoria').value;
+            const valor = document.getElementById('valor').value;
+            const quantidade = document.getElementById('quantidade').value;
+            const estabelecimento = document.getElementById('estabelecimento').value;
+
+            const produto = {
+                nome,
+                categoria,
+                valor,
+                quantidade,
+                estabelecimento
+            };
+
+            try {
+                const response = await fetch('http://localhost:5000/api/products', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(produto)
+                });
+
+                if (response.ok) {
+                    alert('Produto cadastrado com sucesso!');
+                    // Limpar os campos após o envio
+                    document.getElementById('nome').value = '';
+                    document.getElementById('categoria').value = '';
+                    document.getElementById('valor').value = '';
+                    document.getElementById('quantidade').value = '';
+                    document.getElementById('estabelecimento').value = '';
+                } else {
+                    const data = await response.json();
+                    alert(data.message || 'Erro ao cadastrar produto');
+                }
+            } catch (error) {
+                console.error('Erro ao cadastrar produto:', error);
+                alert('Erro ao cadastrar produto');
+            }
+        }
+    </script>
+
 </body>
+
 </html>
