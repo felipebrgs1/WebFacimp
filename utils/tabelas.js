@@ -13,7 +13,7 @@ async function createTables() {
                 cep CHAR(9) CHECK (cep ~ '^[0-9]{5}-?[0-9]{3}$'),
                 rua VARCHAR(255) NOT NULL,
                 bairro VARCHAR(255) NOT NULL,
-                numero CHAR(5) CHECK (numero ~ '^[0-9]{1,5}$' OR numero = ''),
+                numero CHAR(5) , 
                 semnumero BOOLEAN DEFAULT false,
                 complemento VARCHAR(255),
                 cidade VARCHAR(255) NOT NULL,
@@ -45,19 +45,40 @@ async function createTables() {
             CREATE TABLE IF NOT EXISTS userFisico (
                 id SERIAL PRIMARY KEY,
                 first_name VARCHAR(50) NOT NULL,        
-            last_name VARCHAR(50) NOT NULL,        
-            username VARCHAR(50) NOT NULL UNIQUE,  
-            email VARCHAR(100) NOT NULL UNIQUE,    
-            password TEXT NOT NULL,       
+                last_name VARCHAR(50) NOT NULL,        
+                username VARCHAR(50) NOT NULL UNIQUE,  
+                email VARCHAR(100) NOT NULL UNIQUE,    
+                password TEXT NOT NULL,       
                 created_at TIMESTAMP DEFAULT NOW(),
                 updated_at TIMESTAMP DEFAULT NOW()
             );
         `;
         console.log("Tabela 'userFisico' criada com sucesso");
 
+        // Criação da tabela 'userJuridico'
+        await sql`
+            CREATE TABLE userJuridico (
+            id SERIAL PRIMARY KEY,  -- Chave primária auto-incrementada
+            nome_comercio VARCHAR(255) NOT NULL,
+            cnpj CHAR(14) UNIQUE NOT NULL CHECK (cnpj ~ '^[0-9]{14}$'),
+            cargo VARCHAR(100) NOT NULL,
+            cep VARCHAR(10),
+            rua VARCHAR(255),
+            bairro VARCHAR(255),
+            numero VARCHAR(5),
+            complemento VARCHAR(255),
+            cidade VARCHAR(255),
+            estado VARCHAR(100),
+            telefone VARCHAR(20),
+            sem_numero BOOLEAN DEFAULT FALSE
+        );  
+        `;
+        console.log("Tabela 'userJuridico' criada com sucesso");
+
     } catch (error) {
         console.error("Erro ao criar tabelas:", error);
     }
+
 }
 
 // Executa a criação das tabelas

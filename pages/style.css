@@ -27,7 +27,49 @@ body {
     font-family: var(--fonte-padrao);
 }
 
+#cont-bloco-com {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 2 itens por linha */
+    gap: 16px; /* Espaçamento entre os itens */
+    padding: 16px; /* Espaçamento interno opcional */
+}
 
+/* Barra lateral inicial escondida */
+#sidebar {
+    position: fixed;
+    left: -200px; /* Fora da tela */
+    top: 0;
+    width: 200px;
+    height: 100%;
+    background-color: #333;
+    color: white;
+    overflow: hidden;
+    transition: left 0.3s ease; /* Suavidade no movimento */
+    padding: 20px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
+}
+
+/* Links dentro da barra lateral */
+#sidebar a {
+    display: block;
+    color: white;
+    text-decoration: none;
+    margin: 10px 0;
+    padding: 10px;
+    background: #444;
+    border-radius: 4px;
+    transition: background 0.3s;
+}
+
+/* Hover nos links */
+#sidebar a:hover {
+    background: #555;
+}
+
+/* Barra aparece ao passar o mouse */
+#sidebar:hover {
+    left: 0;
+}
 
 
 
