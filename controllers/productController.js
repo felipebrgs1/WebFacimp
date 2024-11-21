@@ -67,7 +67,7 @@ exports.productbyId = async (req, res) => {
         if (result.length === 0) {
             return res.status(404).send('Produto nao encontrado');
         }
-        res.status(200).json(result[0]);
+        res.status(200).json(result);
     } catch (err) {
         console.error('Erro ao buscar produto:', err);
         res.status(500).send('Erro ao buscar produto');

@@ -1,139 +1,145 @@
-POST http://localhost:5000/api/estabelecimentos
-Content-Type: application/json
+<!DOCTYPE html>
+<html lang="pt-BR">
 
-{
-    "nome": "Loja 1 - Tech World",
-    "cnpj": "12345678000195",
-    "categoria": "Eletrônicos",
-    "cep": "12345-678",
-    "rua": "Rua das Inovações",
-    "bairro": "Centro",
-    "numero": "10023",
-    "semnumero": false,
-    "complemento": "Próximo ao shopping",
-    "cidade": "São Paulo",
-    "estado": "SP",
-    "telefone": "11987654321"
-}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página Inicial</title>
+    <style>
+        /* Estilo do botão */
+        .btn-detalhes {
+            display: inline-block;
+            background-color: #007BFF;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
 
+        .btn-detalhes:hover {
+            background-color: #0056b3;
+        }
 
-###
-POST http://localhost:5000/api/estabelecimentos
-Content-Type: application/json
- 
-{
-  "nome": "Loja 2 - Moda Atual",
-  "cnpj": "98765432000187",
-  "categoria": "Vestuário",
-  "cep": "23456-789",
-  "rua": "Avenida Fashion",
-  "bairro": "Jardins",
-  "numero": "31231",
-  "semnumero": false,
-  "complemento": null,
-  "cidade": "Rio de Janeiro",
-  "estado": "RJ",
-  "telefone": "21987654321"
-}
+        /* Estilo do modal */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            display: none; /* Oculta o modal por padrão */
+        }
 
+        .modal-content {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            width: 400px;
+            text-align: center;
+            position: relative;
+        }
 
+        #fechar-modal {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+            cursor: pointer;
+        }
 
-###
+        #fechar-modal:hover {
+            color: red;
+        }
+    </style>
+</head>
 
+<body>
+    <main id="main-home">
+        <!-- Apresentação de comércios -->
+        <section id="cont-bloco-com"> <!-- Conteiner -->
+        </section>
 
+        <!-- Modal de detalhes -->
+        <div id="modal-detalhes" class="modal">
+            <div class="modal-content">
+                <span id="fechar-modal">&times;</span>
+                <h2 id="detalhes-nome"></h2>
+                <p id="detalhes-local"></p>
+                <p id="detalhes-categoria"></p>
+                <p id="detalhes-descricao"></p>
+            </div>
+        </div>
+    </main>
 
-POST http://localhost:5000/api/estabelecimentos
-Content-Type: application/json
+    <script>
+        let estabelecimentos = [];
 
-{
-  "nome": "Loja 3 - Super Alimentos",
-  "cnpj": "45678912000136",
-  "categoria": "Alimentos",
-  "cep": "34567-890",
-  "rua": "Estrada dos Sabores",
-  "bairro": "Zona Sul",
-  "numero": "35032",
-  "semnumero": false,
-  "complemento": "Bloco A",
-  "cidade": "Belo Horizonte",
-  "estado": "MG",
-  "telefone": "31987654321"
-}
-######################################################################################
-POST http://localhost:5000/api/products
-Content-Type: application/json
+        async function carregarEstabelecimentos() {
+            try {
+                const response = await fetch("http://localhost:5000/api/estabelecimentos");
+                if (!response.ok) throw new Error("Erro ao buscar dados da API");
 
-  {
-    "nome": "Smartphone X",
-    "categoria": "Eletrônicos",
-    "valor": 3500.00,
-    "quantidade": 20,
-    "estabelecimento": 1
-  }
-###
-POST http://localhost:5000/api/products
-Content-Type: application/json
+                estabelecimentos = await response.json();
+                exibirEstabelecimentos(estabelecimentos);
+            } catch (error) {
+                console.error("Erro ao carregar estabelecimentos:", error);
+            }
+        }
 
-{
-    "nome": "Fone de Ouvido Bluetooth",
-    "categoria": "Eletrônicos",
-    "valor": 250.00,
-    "quantidade": 50,
-    "estabelecimento": 1
-  }
-###
+        function exibirEstabelecimentos(lista) {
+            const container = document.getElementById("cont-bloco-com");
+            container.innerHTML = "";
 
-POST http://localhost:5000/api/products
-Content-Type: application/json
+            lista.forEach(estabelecimento => {
+                const section = document.createElement("section");
+                section.className = "bloco-com";
 
-{
-    "nome": "Jaqueta de Couro",
-    "categoria": "Vestuário",
-    "valor": 499.99,
-    "quantidade": 15,
-    "estabelecimento": 2
-  }
+                section.innerHTML = `
+                    <h2>${estabelecimento.name}</h2>
+                    <p>Local: ${estabelecimento.rua}</p>
+                    <p>Categoria: ${estabelecimento.category}</p>
+                    <button class="btn-detalhes" onclick="mostrarDetalhes('${estabelecimento.id}')">Detalhes</button>
+                `;
 
-###
+                container.appendChild(section);
+            });
+        }
 
-POST http://localhost:5000/api/products
-Content-Type: application/json
+        function mostrarDetalhes(id) {
+            const estabelecimento = estabelecimentos.find(est => est.id === id);
+            if (estabelecimento) {
+                document.getElementById("detalhes-nome").innerText = estabelecimento.name;
+                document.getElementById("detalhes-local").innerText = `Local: ${estabelecimento.rua}`;
+                document.getElementById("detalhes-categoria").innerText = `Categoria: ${estabelecimento.category}`;
+                document.getElementById("detalhes-descricao").innerText = estabelecimento.description || "Descrição não disponível.";
 
-{
-    "nome": "Calça Jeans Slim",
-    "categoria": "Vestuário",
-    "valor": 120.00,
-    "quantidade": 30,
-    "estabelecimento": 2
-  }
+                // Exibe o modal
+                const modal = document.getElementById("modal-detalhes");
+                modal.style.display = "flex";
+            } else {
+                console.error(`Estabelecimento com ID ${id} não encontrado`);
+            }
+        }
 
+        // Fechar modal
+        document.getElementById("fechar-modal").addEventListener("click", () => {
+            document.getElementById("modal-detalhes").style.display = "none";
+        });
 
-###
+        // Carrega os estabelecimentos ao carregar a página
+        document.addEventListener("DOMContentLoaded", carregarEstabelecimentos);
+    </script>
+</body>
 
-POST http://localhost:5000/api/products
-Content-Type: application/json
-
-{
-    "nome": "Pasta de Amendoim Natural",
-    "categoria": "Alimentos",
-    "valor": 30.00,
-    "quantidade": 100,
-    "estabelecimento": 3
-  }
-
-###
-
-POST http://localhost:5000/api/products
-Content-Type: application/json
-
-{
-    "nome": "Suco Detox 500ml",
-    "categoria": "Alimentos",
-    "valor": 15.00,
-    "quantidade": 200,
-    "estabelecimento": 3
-  }
-
-
-
-
+</html>
