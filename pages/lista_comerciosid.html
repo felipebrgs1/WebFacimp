@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Comércios</title>
+    <style>
+        /* Estilo geral */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+
+        /* Cabeçalho */
+        header {
+            background-color: #007BFF;
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+
+        header a {
+            color: white;
+            text-decoration: none;
+            margin-left: 15px;
+        }
+
+        header a:hover {
+            text-decoration: underline;
+        }
+
+        .botao {
+            background-color: white;
+            color: #007BFF;
+            border: 1px solid white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+
+        .botao:hover {
+            background-color: #0056b3;
+            color: white;
+            border: 1px solid #0056b3;
+        }
+
+        /* Navegação do usuário */
+        nav#user-nav {
+            background-color: #e9ecef;
+            padding: 10px;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        nav#user-nav a {
+            text-decoration: none;
+            color: #007BFF;
+            font-weight: bold;
+        }
+
+        nav#user-nav a:hover {
+            text-decoration: underline;
+        }
+
+        /* Lista de comércios */
+        section#lista-com-user {
+            padding: 20px;
+        }
+
+        section#lista-com-user h1 {
+            font-size: 28px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        #estabelecimento-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .produto {
+            background-color: white;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .produto h2 {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        .produto p {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Cabeçalho -->
+    <header>
+        <h1><a href="index.html">ITZ ONLINE</a></h1>
+        <nav id="header-nav">
+            <div>
+                <a href="#">Como funciona</a>
+                <a href="#">Ajuda</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Navegação de Usuário -->
+    <nav id="nav-user">
+        <a href="http://localhost:5000/minha_conta">Minha Conta</a>
+        <a href="http://localhost:5000/cadastro_comercio">Cadastro Comércios</a>
+        <a href="http://localhost:5000/cadastro_usuario">Cadastro de Usuários</a>
+        <a href="http://localhost:5000/cadastro_produto">Cadastro de Produtos</a>
+        <a href="http://localhost:5000/lista_comercios">Meus Comércios</a>
+        <a href="http://localhost:5000/produto">Produtos</a>
+        <a href="#">Ajuda</a>
+        <a href="#">Sobre</a>
+    </nav>
+    <!-- Lista de Comércios -->
+    <section id="lista-com-user">
+        <h1>Lista de Comércios</h1>
+        <div id="estabelecimento-container"></div>
+    </section>
+
+    <script>
+        function getId() {
+            const pathSegments = window.location.pathname.split('/');
+            return pathSegments[pathSegments.length - 1]; // Último segmento da URL
+        }
+
+        const id = getId(); // Pega o ID da URL
+        async function carregarestabelecimentos() {
+            try {
+                const response = await fetch(`http://localhost:5000/api/estabelecimentos/${id}`);
+                if (!response.ok) throw new Error('Estabelecimento não encontrado');
+
+                const estabelecimento = await response.json();
+                const container = document.getElementById('estabelecimento-container');
+                container.innerHTML = '';
+
+                if (!estabelecimento || Object.keys(estabelecimento).length === 0) {
+                    container.innerHTML = '<p>Nenhum estabelecimento encontrado.</p>';
+                    return;
+                }
+
+                container.innerHTML = `
+                    <div class="produto">
+                        <h2>${estabelecimento.name}</h2>
+                        <p><strong>Categoria:</strong> ${estabelecimento.category}</p>
+                        <p><strong>CNPJ:</strong> ${estabelecimento.cnpj}</p>
+                    </div>
+                `;
+            } catch (error) {
+                console.error('Erro ao carregar estabelecimento:', error);
+                document.getElementById('estabelecimento-container').innerHTML = '<p>Erro ao carregar estabelecimento.</p>';
+            }
+        }
+        carregarestabelecimentos();
+    </script>
+</body>
+
+</html>

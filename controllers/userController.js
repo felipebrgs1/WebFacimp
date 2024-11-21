@@ -62,3 +62,27 @@ exports.loginUser = async (req, res) => {
         res.status(500).json({ message: "Erro interno do servidor." });
     }
 };
+
+exports.updateUser = async (req, res) => {
+    const { id } = req.params;
+    const { first_name, last_name, username, email, password } = req.body;
+
+    try {
+        // Valida entrad
+        if (!first_name && !last_name && !username && !email && !password) {
+            return res.status(400).json({ message: "campos são obrigatórios." });
+        }
+        const hashedPassword = await bcrypt.hash(password, 10);
+        // Atualiza no banco
+        await sql`
+            UPDATE userFisico
+            SET first_Name = ${first_name}, last_Name = ${last_name}, username = ${username}, email = ${email}, password = ${hashedPassword}
+            WHERE id = ${id}
+        `;
+
+        res.status(200).json({ message: "Usuário atualizado com sucesso!" });
+    } catch (error) {
+        console.error("Erro ao atualizar usuário:", error);
+        res.status(500).json({ message: "Erro interno do servidor." });
+    }
+};

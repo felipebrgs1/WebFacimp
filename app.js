@@ -27,13 +27,13 @@ app.get('/cadastro_comercio', (req, res) => {
     res.sendFile(path.join(__dirname, 'pages', 'cadastro_comercio.html'));
 })
 app.get('/cadastro', (req, res) => {
-    res.sendFile(path.join(__dirname, 'pages', 'cadastro_comercio.html'));
+    res.sendFile(path.join(__dirname, 'pages', 'cadastro.html'));
 });
-app.get('/cadastrousuario', async (req, res) => {
-    res.sendFile(path.join(__dirname, 'pages', 'cadastrousuario.html'));
+app.get('/cadastro_usuario', async (req, res) => {
+    res.sendFile(path.join(__dirname, 'pages', 'cadastro_usuario.html'));
 })
-app.get('/cadastroproduto', async (req, res) => {
-    res.sendFile(path.join(__dirname, 'pages', 'cadastroproduto.html'));
+app.get('/cadastro_produto', async (req, res) => {
+    res.sendFile(path.join(__dirname, 'pages', 'cadastro_produto.html'));
 })
 app.get('/minha_conta', async (req, res) => {
     res.sendFile(path.join(__dirname, 'pages', 'minha_conta.html'));
@@ -42,8 +42,17 @@ app.get('/login', async (req, res) => {
     res.sendFile(path.join(__dirname, 'pages', 'login.html'));
 })
 
+app.get('/lista_comercios/:id', async (req, res) => {
+    res.sendFile(path.join(__dirname, 'pages', 'lista_comerciosid.html'));
+})
 app.get('/lista_comercios', async (req, res) => {
-    res.sendFile(path.join(__dirname, 'pages', 'lista_comercios.html'));
+    res.sendFile(path.join(__dirname, 'pages', 'lista_comercio.html'));
+})
+app.get('/produto/:id', (req, res) => {
+    res.sendFile(path.join(__dirname, 'pages', 'listaproduto.html'));
+});
+app.get('/produto', (req, res) => {
+    res.sendFile(path.join(__dirname, 'pages', 'produtos.html'));
 })
 
 app.listen(port, () => {

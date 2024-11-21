@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastro Usuário</title>
+    <title>Lista de Comércios</title>
     <link rel="stylesheet" href="style.css">
 </head>
 
@@ -38,37 +38,47 @@
         <a href="#">Sobre</a>
     </nav>
 
-    <!-- Cadastro Usuário -->
-    <section id="cadastro-com"> <!-- id reutilizado -->
-        <h1>Cadastro Usuário</h1>
 
-        <div>
-
-            <div>
-                <input type="text" name="" id="" placeholder="Nome Comércio">
-                <input type="text" name="" id="" placeholder="CNPJ">
-                <input type="text" name="" id="" placeholder="Cargo">
-                <input type="text" name="" id="" placeholder="CEP">
-                <input type="text" name="" id="" placeholder="Rua">
-                <input type="text" name="" id="" placeholder="Bairro">
-                <input type="text" name="" id="" placeholder="Número">
-                <input type="text" name="" id="" placeholder="Complemento">
-            </div>
-
-            <input type="checkbox" name="" id="sem-num-check"><span>Sem número</span>
-
-            <div>
-                <input type="text" name="" id="" placeholder="Cidade">
-                <input type="text" name="" id="" placeholder="Estado">
-                <input type="text" name="" id="" placeholder="Telefone">
-            </div>
+    <!-- Lista de Comércios -->
+    <section id="lista-com-user">
+        <h1>Lista de Comércios</h1>
+        <div id="estabelecimento-container">
 
         </div>
 
-        <button type="submit">Cadastrar</button>
+
 
     </section>
-
 </body>
+<script>
+    async function carregarestabelecimentos() {
+        const response = await fetch(`http://localhost:5000/api/estabelecimentos`);
+        const estabelecimentos = await response.json();
+
+        const container = document.getElementById('estabelecimento-container');
+        container.innerHTML = '';
+
+        estabelecimentos.forEach(estabelecimento => {
+            container.innerHTML += `
+              <div class="estabelecimento">
+                  <h2>${estabelecimento.name}</h2>
+                  <p>CNPJ: ${estabelecimento.cnpj}</p>
+                  <p>Categoria: ${estabelecimento.category}</p>
+                  <p>Local: ${estabelecimento.rua}</p>
+                  <br>
+                  <hr>
+                  <br>
+              </div>
+          `;
+        });
+    }
+
+    carregarestabelecimentos();
+
+
+
+
+
+</script>
 
 </html>

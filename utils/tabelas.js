@@ -8,7 +8,7 @@ async function createTables() {
             CREATE TABLE IF NOT EXISTS estabelecimentos (
                 id SERIAL PRIMARY KEY,
                 name VARCHAR(255) NOT NULL,
-                cnpj CHAR(14) UNIQUE NOT NULL CHECK (cnpj ~ '^[0-9]{14}$'),
+                cnpj CHAR(14) NOT NULL CHECK (cnpj ~ '^[0-9]{14}$'),
                 category VARCHAR(255) NOT NULL,
                 cep CHAR(9) CHECK (cep ~ '^[0-9]{5}-?[0-9]{3}$'),
                 rua VARCHAR(255) NOT NULL,
@@ -57,7 +57,7 @@ async function createTables() {
 
         // Criação da tabela 'userJuridico'
         await sql`
-            CREATE TABLE userJuridico (
+            CREATE TABLE IF NOT EXISTS userJuridico (
             id SERIAL PRIMARY KEY,  -- Chave primária auto-incrementada
             nome_comercio VARCHAR(255) NOT NULL,
             cnpj CHAR(14) UNIQUE NOT NULL CHECK (cnpj ~ '^[0-9]{14}$'),

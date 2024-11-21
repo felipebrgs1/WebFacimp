@@ -48,7 +48,7 @@
         /* Barra lateral inicial escondida */
         #sidebar {
             position: fixed;
-            left: -220px;
+            left: -200px;
             /* Fora da tela */
             top: 0;
             width: 200px;
@@ -96,8 +96,9 @@
         <a href="http://localhost:5000/produto">Produtos</a>
     </div>
     <header style="text-align: left; margin-left: 40px;">
-        <a href="http://localhost:5000">Home</a>
+        <a href="http://localhost:5000"> Home</a>
     </header>
+
     <h2>Produtos</h1>
         <div id="produto-container">
             <!-- Os produtos serão listados aqui -->
@@ -116,7 +117,7 @@
 
                 try {
                     // Chama a API para buscar os produtos do estabelecimento
-                    const response = await fetch(`http://localhost:5000/api/products/${productId}`);
+                    const response = await fetch(`http://localhost:5000/api/products`);
                     if (!response.ok) throw new Error('Estabelecimento nao encontrado');
 
                     const produtos = await response.json(); // Produtos retornados pela API
