@@ -29,22 +29,27 @@ body {
 
 #cont-bloco-com {
     display: grid;
-    grid-template-columns: repeat(2, 1fr); /* 2 itens por linha */
-    gap: 16px; /* Espaçamento entre os itens */
-    padding: 16px; /* Espaçamento interno opcional */
+    grid-template-columns: repeat(2, 1fr);
+    /* 2 itens por linha */
+    gap: 16px;
+    /* Espaçamento entre os itens */
+    padding: 16px;
+    /* Espaçamento interno opcional */
 }
 
 /* Barra lateral inicial escondida */
 #sidebar {
     position: fixed;
-    left: -200px; /* Fora da tela */
+    left: -210px;
+    /* Fora da tela */
     top: 0;
     width: 200px;
     height: 100%;
     background-color: #333;
     color: white;
     overflow: hidden;
-    transition: left 0.3s ease; /* Suavidade no movimento */
+    transition: left 0.3s ease;
+    /* Suavidade no movimento */
     padding: 20px;
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
 }
@@ -85,8 +90,9 @@ header {
 }
 
 /* Logo do site */
-header > h1 {
-    display: inline-block; /* Elemento box-level para inline-level */
+header>h1 {
+    display: inline-block;
+    /* Elemento box-level para inline-level */
     font-family: var(--fonte-nome);
     font-size: 24px;
     width: 94px;
@@ -111,7 +117,7 @@ header a {
 }
 
 /* Botões de Navegação */
-#header-nav-botao > a {
+#header-nav-botao>a {
     margin-right: 15px;
 }
 
@@ -121,7 +127,7 @@ header a {
 }
 
 /* Botões Login de Navegação */
-#header-nav-botao-login > a {
+#header-nav-botao-login>a {
     background-color: var(--cor-botao);
     padding: 15px;
     border-radius: 5px;
@@ -166,7 +172,7 @@ header a {
     position: fixed;
 }
 
-#nav-user > a {
+#nav-user>a {
     display: block;
     background-color: var(--cor-layout);
     color: white;
@@ -195,14 +201,14 @@ header a {
     border-radius: 10px;
 }
 
-#minha-conta > h1 {
+#minha-conta>h1 {
     border-left: 6px solid white;
     padding-left: 30px;
     height: 40px;
     margin-bottom: 30px;
 }
 
-#minha-conta > p {
+#minha-conta>p {
     color: black;
     font-weight: 500;
     background-color: #D9D9D9;
@@ -213,19 +219,19 @@ header a {
     margin-bottom: 30px;
 }
 
-#minha-conta > h2 {
+#minha-conta>h2 {
     display: inline-block;
     width: 250px;
     margin-bottom: 10px;
 }
 
-#minha-conta > input {
+#minha-conta>input {
     width: 70%;
     border-radius: 5px;
     padding: 5px;
 }
 
-#minha-conta > button {
+#minha-conta>button {
     display: block;
     margin: 80px 20px;
 
@@ -242,7 +248,8 @@ header a {
 }
 
 #button-register {
-    background-color: gray; /* Green */
+    background-color: gray;
+    /* Green */
     border: none;
     color: white;
     padding: 15px 32px;
@@ -250,7 +257,80 @@ header a {
     text-decoration: none;
     display: inline-block;
     font-size: 16px;
-  }
+}
+
+/* Estilo base (para desktops, já aplicado) */
+
+/* Responsividade para telas menores (mobile) */
+@media (max-width: 768px) {
+    header {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        height: auto;
+    }
+
+    main-cadastro {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        height: auto;
+    }
+
+    header-nav-botao-login {
+        display: none;
+    }
+
+
+    #apresentacao {
+        text-align: center;
+        padding: 20px;
+    }
+
+    #main-login {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+    }
+
+    #area-login {
+        width: 90%;
+        /* Ajusta o formulário para caber na tela menor */
+        max-width: 400px;
+        margin: 0 auto;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        background-color: #fff;
+        /* Garanta um fundo branco */
+        border-radius: 8px;
+    }
+
+    #area-login h1 {
+        text-align: center;
+    }
+
+    #form-login input[type="email"],
+    #form-login input[type="password"],
+    #form-login button {
+        width: 100%;
+        margin-bottom: 15px;
+    }
+
+    #area-login-botao-cadastro {
+        display: block;
+        text-align: center;
+        margin-top: 15px;
+    }
+
+    #nav-user {
+        display: none;
+    }
+
+
+}
 
 
 
@@ -272,7 +352,7 @@ header a {
     box-shadow: 0px 4px 4px 0px #00000040;
 }
 
-#home-pesquisar-comercio > h2 {
+#home-pesquisar-comercio>h2 {
     color: var(--cor-destaque0);
 }
 
@@ -292,13 +372,13 @@ header a {
 }
 
 /* Botão do ícone */
-#home-pesquisar-comercio > button {
+#home-pesquisar-comercio>button {
     cursor: pointer;
     border: none;
 }
 
 /* Links de navegação da barra de pesquisa */
-.home-pesquisar-comercio-nav > a {
+.home-pesquisar-comercio-nav>a {
     text-decoration: none;
     color: black;
     font-size: 12px;
@@ -307,20 +387,22 @@ header a {
 /* Responsividade */
 @media (max-width: 768px) {
     header {
-        flex-direction: column; /* Ajusta header para empilhar os elementos */
+        flex-direction: column;
+        /* Ajusta header para empilhar os elementos */
         text-align: center;
         height: 200px;
     }
 
     #header-nav-botao-login {
-        margin-bottom: 30px; /* Forçar margem para tomar espaço do header */
+        margin-bottom: 30px;
+        /* Forçar margem para tomar espaço do header */
     }
 
     #main-home {
         margin: 10px;
     }
 
-    #home-pesquisar-comercio > h2 {
+    #home-pesquisar-comercio>h2 {
         text-align: center;
     }
 
@@ -328,6 +410,9 @@ header a {
         width: 80%;
     }
 
+    #cadastro-produto {
+        margin-left: 0px;
+    }
 }
 
 /* Blocos de comércio */
@@ -346,16 +431,16 @@ header a {
     box-shadow: 0px 4px 4px 0px #00000040;
 }
 
-.bloco-com > h2 {
+.bloco-com>h2 {
     font-weight: 500;
     color: var(--cor-layout);
 }
 
-.bloco-com > p {
+.bloco-com>p {
     margin: 10px 2px;
 }
 
-.bloco-com > a {
+.bloco-com>a {
     text-decoration: none;
     color: black;
     font-weight: 500;
@@ -399,12 +484,15 @@ header a {
     border-radius: 1px;
 }
 
-#input-email, #input-senha {
-    width: 90%; /* Faz os campos de entrada ocuparem toda a largura disponível */
+#input-email,
+#input-senha {
+    width: 90%;
+    /* Faz os campos de entrada ocuparem toda a largura disponível */
 }
 
 #h2-senha {
-    margin-top: 30px; /* Margem entre email e senha*/
+    margin-top: 30px;
+    /* Margem entre email e senha*/
 }
 
 #label-manter-logado {
@@ -423,7 +511,7 @@ header a {
     cursor: pointer;
 }
 
-#area-login > p {
+#area-login>p {
     display: inline-block;
     color: var(--cor-botao);
     margin-left: 100px;
@@ -439,7 +527,8 @@ header a {
     margin-left: 10px;
 }
 
-#main-login { /* Tirar sombra padrão do bloco main */
+#main-login {
+    /* Tirar sombra padrão do bloco main */
     box-shadow: none;
     margin: auto;
 }
@@ -450,7 +539,8 @@ header a {
 /* ÁREA DE CADASTRO */
 
 #main-cadastro {
-    box-shadow: none; /* Tirar sombra padrão do bloco main */
+    box-shadow: none;
+    /* Tirar sombra padrão do bloco main */
     margin: auto;
 }
 
@@ -466,11 +556,11 @@ header a {
     box-shadow: 0px 4px 4px 0px #00000040;
 }
 
-#area-cadastro > h1 {
+#area-cadastro>h1 {
     margin-bottom: 30px;
 }
 
-#area-cadastro > input {
+#area-cadastro>input {
     width: 90%;
     padding: 10px;
     margin: 10px 0px 10px 0px;
@@ -502,28 +592,45 @@ header a {
 /* RESPONSIVIDADE */
 @media (max-width: 768px) {
     header {
-        flex-direction: column; /* Ajusta header para empilhar os elementos */
+        flex-direction: column;
+        /* Ajusta header para empilhar os elementos */
         text-align: center;
         height: 200px;
     }
 
+    #area-cadastro {
+        width: 90%;
+        /* Reduz largura da caixa de cadastro */
+    }
+
     #header-nav-botao-login {
-        margin-bottom: 30px; /* Forçar margem para tomar espaço do header */
+        margin-bottom: 30px;
+        /* Forçar margem para tomar espaço do header */
     }
 
     #pesquisar-comercio {
-        margin: 0px; /* Remove margens fixas */
+        margin: 0px;
+        /* Remove margens fixas */
         padding: 10px;
     }
 
     #lista-comercios {
         margin: 0px;
-        columns: 1; /* Altera layout para 1 coluna */
+        columns: 1;
+        /* Altera layout para 1 coluna */
     }
 
     .comercio {
-        width: 90%; /* Reduz largura dos blocos */
+        width: 90%;
+        /* Reduz largura dos blocos */
         margin: 10px auto;
+    }
+
+    #cont-bloco-com {
+        width: 90%;
+        /* Reduz largura dos blocos */
+        margin: 10px auto;
+        grid-template-columns: repeat(1, 1fr);
     }
 }
 
@@ -543,11 +650,11 @@ header a {
     border-radius: 10px;
 }
 
-#cadastro-produto > h1 {
+#cadastro-produto>h1 {
     margin-bottom: 20px;
 }
 
-#cadastro-produto > input {
+#cadastro-produto>input {
     display: block;
     width: 70%;
     border-radius: 5px;
@@ -557,7 +664,7 @@ header a {
     background-color: #D9D9D9;
 }
 
-#cadastro-produto > button {
+#cadastro-produto>button {
     margin: 70px 20px;
     background: var(--cor-destaque0);
     text-decoration: none;
@@ -586,11 +693,11 @@ header a {
     border-radius: 10px;
 }
 
-#lista-com-user > h1 {
+#lista-com-user>h1 {
     text-align: center;
 }
 
-#lista-com-user > .bloco-com {
+#lista-com-user>.bloco-com {
     background-color: white;
     width: 500px;
     margin: auto;
@@ -598,15 +705,15 @@ header a {
     border-radius: 10px;
 }
 
-#lista-com-user > .bloco-com > h2 {
+#lista-com-user>.bloco-com>h2 {
     color: var(--cor-layout);
 }
 
-#lista-com-user > .bloco-com > p {
+#lista-com-user>.bloco-com>p {
     color: #A4B2BF;
 }
 
-#lista-com-user > .bloco-com > .p-azul {
+#lista-com-user>.bloco-com>.p-azul {
     color: #8AA7CC;
 }
 
@@ -628,17 +735,17 @@ header a {
     border-radius: 10px;
 }
 
-#cadastro-com > h1 {
+#cadastro-com>h1 {
     text-align: center;
     margin-bottom: 20px;
 }
 
-#cadastro-com > div {
+#cadastro-com>div {
     width: 90%;
     margin: auto;
 }
 
-#cadastro-com > div > div > input {
+#cadastro-com>div>div>input {
     width: 40%;
     border-radius: 5px;
     padding: 5px;
@@ -652,11 +759,11 @@ header a {
     margin-left: 20px;
 }
 
-#cadastro-com > div > span {
+#cadastro-com>div>span {
     margin-left: 10px;
 }
 
-#cadastro-com > button {
+#cadastro-com>button {
     margin: 70px 20px 20px 50px;
     background: var(--cor-destaque0);
     text-decoration: none;
